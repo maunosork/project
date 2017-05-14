@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="jquery.dynacloud.js"></script>
+    <style> 
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+    <script type = "text/javascript" language = "javascript">
+	  $(document).ready(function() {
+		  /*Tähän olisi tullut tag cloud mutta valitettavasti en saanut toimimaan*******************************************/
+		  /*$.getJSON("http://localhost:8080/api/tags", function(result){
+			  content12 =  '<div class=dynacloud>';
+			  $(content12).appendTo("#text");
+		      $.each(result, function(i, field){
+		    	  	content = '<p class=dynacloud>';
+		    	    content += field.tag;
+		    	   	content += '</p>';
+		            $(content).appendTo("#text");
+		      });
+		      content1 =  '</div';
+		      content1 += '<div style=border-style:solid; id=dynacloud></div>';
+	    	  $(content1).appendTo("#text");
+		  });*/
+		  
+		  $.getJSON("http://localhost:8080/api/projects", function(result){
+		      $.each(result, function(i, field){
+		    	  	var posi = (field.id-80);
+		    	  	drawCenteredCircle2(posi);
+		    	    content = '<tr>';
+		    	    content += '<td style=width:50px>' + field.id + '</td>';
+		    	    content += '<td style=width:150px>' + field.company + '</td>';
+		    	    content += '<td style=width:200px>' + field.email + '</td>';
+		    	    content += '<td style=width:150px>' + field.description + '</td>';
+		    	    content += '<td style=width:50px>' + field.status + '</td>';
+		    	    content += '</tr>';
+		            $(content).appendTo("#project_list");
+		    	    //console.log(posi);
+		      });
+		  });
+		  $.getJSON("http://localhost:8080/api/students", function(result){
+		      $.each(result, function(i, field){
+		    	  	//var pos = 10;
+		    	    var avggrade = field.avggrade;
+		    	  	drawCenteredCircle(avggrade);	    	    
+		    	    content = '<tr>';
+		    	    content += '<td style=width:50px>' + field.id + '</td>';
+		    	    content += '<td style=width:150px>' + field.name + '</td>';
+		    	    content += '<td style=width:200px>' + field.email + '</td>';
+		    	    content += '<td style=width:150px>' + field.mobile + '</td>';
+		    	    content += '<td style=width:50px>' + field.credits + '</td>';
+		    	    content += '<td style=width:50px>' + field.avggrade + '</td>';
+		    	    content += '<td style=width:50px>' + field.status + '</td>';
+		    	    content += '</tr>';
+		            $(content).appendTo("#student_list");
+		            //console.log(avggrade);
+		            //console.log(pos);
+		      });
+		  });
+	  });  	  
+  </script>
+  
+  <canvas id="myCanvas" width="578" height="200"></canvas>
+  
+  <script type = "text/javascript" language = "javascript">
+  	  function drawCenteredCircle(avggrade){
+		  var pos = avggrade*50;
+		  var radius = avggrade*12;
+	      var canvas = document.getElementById('myCanvas');
+	      var context = canvas.getContext('2d');   
+	      var rad = radius;
+	      var right = canvas.width-pos;
+	      var bottom = canvas.height-radius-10;
+	
+	      context.beginPath();
+	      context.arc(right, bottom, radius, 0, 2 * Math.PI, false);
+	      context.fillStyle = 'green';
+	      context.fill();
+	      context.lineWidth = 5;
+	      context.strokeStyle = '#003300';
+	      context.stroke();
+	  }
+	  function drawCenteredCircle2(posi){
+		  var pos = posi*50;
+		  var radius = 50;
+	      var canvas = document.getElementById('myCanvas');
+	      var context = canvas.getContext('2d');   
+	      var rad = radius;
+	      var left = (canvas.width-canvas.width)+pos;
+	      var top = (canvas.height-canvas.height*1/3)-radius-10;
+	
+	      context.beginPath();
+	      context.arc(left, top, radius, 0, 2 * Math.PI, false);
+	      context.fillStyle = 'red';
+	      context.fill();
+	      context.lineWidth = 5;
+	      context.strokeStyle = '#003300';
+	      context.stroke();
+	  }
+  
+	  
+  </script>
+  </head>
+  <body>
+  
+  <div style=width:770px;height:150px;overflow:scroll;>
+	      <table id = "project_list">  
+	      </table>     
+    </div>
+    <div style=width:770px;height:150px;overflow:scroll;>
+	      <table id = "student_list">  
+	      </table>     
+    </div>
+	
+	<div id="text"> </div>
+	
+	
+
+  </body> 
+</html>  

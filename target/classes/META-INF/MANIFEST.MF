@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: ideas
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Mauno
+Implementation-Vendor-Id: project_e1400521
+Build-Jdk: 1.8.0_131
+Implementation-URL: http://projects.spring.io/spring-boot/project_e140
+ 0521/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Company Form</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<form>
+		<table>
+			<tr><td>Company:</td> 		<td><input type="text" id="company">	</td></tr>
+			<tr><td>Email:</td> 		<td><input type="text" id="email">		</td></tr>
+			<tr><td>Description:</td> 	<td><input type="text" id="description"></td></tr>
+			<tr><td>Tags:</td> 			<td><input type="text" id="tags">		</td><td>(separate with commas)</td></tr>
+			<tr><td>Status:</td><td><input name="StatusCheckBox" id="status" type="checkbox" checked="checked"><strong>Open</strong></td></tr>				
+			<tr><td><input type="button" onClick="save()" value="Lisää">		</td></tr>
+		</table>
+	</form>
+</body>
+<script>
+	function save(){
+		//console.log($("#status:checked").val());
+
+		var project = {
+				company: $("#company").val(),
+				email: $("#email").val(),
+				description: $("#description").val(),
+				status: $("#status:checked").val(),
+				tags:[{ 
+						tag: $("#tags").val()
+					 }],
+        }	
+		$('#target').html('sending..');
+		console.log(JSON.stringify(project));
+
+		$.ajax({
+            url: '/api/project',
+            type: 'post',
+            dataType: 'json',         
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(project),
+            success: function (data) {
+                $('#target').html(data.msg);
+            }   
+        });
+	}
+</script>
+</html>

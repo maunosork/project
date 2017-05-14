@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Student Form</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+	<form>
+		<table>
+			<tr><td>Name:</td> 		<td><input type="text" id="name">	</td></tr>
+			<tr><td>Email:</td> 		<td><input type="text" id="email">		</td></tr>
+			<tr><td>Mobile:</td> 	<td><input type="text" id="mobile"></td></tr>
+			<tr><td>Credits:</td> 	<td><input type="text" id="credits"></td></tr>
+			<tr><td>Average grade:</td> 	<td><input type="text" id="avggrade"></td></tr>	
+			<tr><td>Tags:</td> 			<td><input type="text" id="tags">		</td><td>(separate with commas)</td></tr>
+			<tr><td>Status:</td><td><input name="StatusCheckBox" id="status" type="checkbox" checked="checked"><strong>Available</strong></td></tr>				
+			<tr><td><input type="button" onClick="save()" value="Lisää">		</td></tr>
+		</table>
+	</form>
+</body>
+<script>
+	function save(){
+		//console.log($("#status:checked").val());
+
+		var student = {
+				name: $("#name").val(),
+				email: $("#email").val(),
+				mobile: $("#mobile").val(),
+				credits: $("#credits").val(),
+				avggrade: $("#avggrade").val(),
+				status: $("#status:checked").val(),
+				tags:[{ 
+						tag: $("#tags").val()
+					 }],
+        }	
+		$('#target').html('sending..');
+		console.log(JSON.stringify(student));
+
+		$.ajax({
+            url: '/api/student',
+            type: 'post',
+            dataType: 'json',         
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(student),
+            success: function (data) {
+                $('#target').html(data.msg);
+            }   
+        });
+	}
+</script>
+</html>
